@@ -1,0 +1,13 @@
+@echo off
+echo Starting Triage App...
+
+echo Starting FastAPI Backend...
+start cmd /k "cd backend && call .venv\Scripts\Activate.ps1 && python -m uvicorn app.main:app --reload"
+
+echo Waiting 5 seconds for backend to initialize...
+timeout /t 5 /nobreak
+
+echo Starting Streamlit Frontend...
+start cmd /k "cd backend && call .venv\Scripts\Activate.ps1 && streamlit run ..\frontend\app.py"
+
+echo Services started!
