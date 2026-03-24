@@ -18,7 +18,6 @@ class TriageHistory(TriageHistoryBase):
     evaluation_time: datetime
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 class PatientBase(BaseModel):
@@ -54,7 +53,6 @@ class Bed(BedBase):
     patient_id: Optional[int] = None
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 class Patient(PatientBase):
@@ -68,4 +66,4 @@ class Patient(PatientBase):
 
     class Config:
         orm_mode = True
-        from_attributes = True
+        

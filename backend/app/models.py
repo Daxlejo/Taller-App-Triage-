@@ -2,7 +2,7 @@ import enum
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from app.database.connection import Base
+from .database.connection import Base
 
 class TriageLevel(str, enum.Enum):
     RED = "Red"

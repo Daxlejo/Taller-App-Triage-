@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[2]  # sube de scripts/ a App/
 sys.path.insert(0, str(ROOT))
 
 from backend.app.services.patient_service import PatientFlowManager
-from backend.app.models.triage import TriageStatus
+from backend.app.models import TriageLevel
 
 m = PatientFlowManager(bed_capacity=2)
 p = m.admit_patient("Ana", 32, "dolor pecho y dificultad respiratoria severa")

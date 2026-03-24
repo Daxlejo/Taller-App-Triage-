@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app import models, schemas
 from app.models import TriageLevel
+from app.services.triage_service import infer_triage_level
 
 def get_patient(db: Session, patient_id: int):
     return db.query(models.Patient).filter(models.Patient.id == patient_id).first()
@@ -14,9 +15,21 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
         age=patient.age,
         symptoms=patient.symptoms
     )
+    triage_level = infer_triage_level(patient.symptoms)
+    db_patient.triage_level = triage_level
+    db_patient.assigned_by = "Automatic"
     db.add(db_patient)
     db.commit()
     db.refresh(db_patient)
+    # Create initial triage history
+    history = models.TriageHistory(
+        patient_id=db_patient.id,
+        previous_level=models.TriageLevel.UNASSIGNED,
+        new_level=triage_level,
+        evaluated_by="Automatic"
+    )
+    db.add(history)
+    db.commit()
     return db_patient
 
 def update_patient_status(db: Session, patient_id: int, status: models.PatientStatus):
